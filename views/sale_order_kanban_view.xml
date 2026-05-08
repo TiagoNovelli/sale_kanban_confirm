@@ -9,7 +9,7 @@
         <record id="view_sale_order_kanban_draggable" model="ir.ui.view">
             <field name="name">sale.order.kanban.confirm.inherit</field>
             <field name="model">sale.order</field>
-            <field name="inherit_id" ref="sale.view_sales_order_kanban"/>
+            <field name="inherit_id" ref="sale.view_sale_order_kanban"/>
             <field name="arch" type="xml">
 
                 <!-- Habilita drag-and-drop entre colunas -->

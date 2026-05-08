@@ -16,4 +16,6 @@
     'installable': True,
     'auto_install': False,
     'license': 'LGPL-3',
+    # Testes são descobertos automaticamente pela pasta tests/
+    # Executar com: --test-enable -i sale_kanban_confirm --stop-after-init
 }
