@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--
+            Herda a view Kanban padrão de Vendas e habilita o drag-and-drop.
+            O atributo records_draggable permite arrastar cards entre colunas.
+            A lógica de confirmação é tratada no modelo (sale_order.py).
+        -->
+        <record id="view_sale_order_kanban_draggable" model="ir.ui.view">
+            <field name="name">sale.order.kanban.confirm.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_kanban"/>
+            <field name="arch" type="xml">
+
+                <!-- Habilita drag-and-drop entre colunas -->
+                <xpath expr="//kanban" position="attributes">
+                    <attribute name="records_draggable">true</attribute>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>
