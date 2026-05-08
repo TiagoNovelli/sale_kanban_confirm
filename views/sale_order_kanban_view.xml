@@ -6,7 +6,7 @@
             O atributo records_draggable permite arrastar cards entre colunas.
             A lógica de confirmação é tratada no modelo (sale_order.py).
         -->
-        <record id="view_sale_order_kanban_draggable" model="ir.ui.view">
+        <record id="sale.view_quotation_kanban_with_onboarding" model="ir.ui.view">
             <field name="name">sale.order.kanban.confirm.inherit</field>
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_sale_order_kanban"/>
