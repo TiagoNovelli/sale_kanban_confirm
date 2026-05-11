@@ -6,25 +6,11 @@
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_quotation_kanban_with_onboarding"/>
             <field name="arch" type="xml">
-
-                <!-- Apenas habilita drag-and-drop -->
                 <xpath expr="//kanban" position="attributes">
                     <attribute name="records_draggable">true</attribute>
+                    <attribute name="groups_draggable">true</attribute>
                 </xpath>
-
             </field>
         </record>
-
-        <!-- Sobrescreve a action para forçar agrupamento por state -->
-        <record id="action_quotations_with_onboarding_kanban_grouped" model="ir.actions.act_window">
-            <field name="name">Quotations</field>
-            <field name="res_model">sale.order</field>
-            <field name="view_mode">kanban,list,form</field>
-            <field name="context">{
-                'default_group_by': 'state',
-                'search_default_my_sale': 1
-            }</field>
-        </record>
-
     </data>
 </odoo>
