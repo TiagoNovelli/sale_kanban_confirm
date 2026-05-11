@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <!--
+            Herda a view Kanban de Cotações do Odoo 18 (view_quotation_kanban_with_onboarding).
+            1. Corrige o ref para o ID externo correto no Odoo 18
+            2. Habilita drag-and-drop entre colunas (records_draggable)
+            3. Força agrupamento por state para criar as colunas (default_group_by)
+            A lógica de confirmação ao arrastar está em models/sale_order.py
+        -->
         <record id="view_sale_order_kanban_draggable" model="ir.ui.view">
             <field name="name">sale.order.kanban.confirm.inherit</field>
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_quotation_kanban_with_onboarding"/>
             <field name="arch" type="xml">
+
+                <!-- Habilita drag-and-drop E força agrupamento por state (cria as colunas) -->
                 <xpath expr="//kanban" position="attributes">
                     <attribute name="records_draggable">true</attribute>
-                    <attribute name="groups_draggable">true</attribute>
+                    <attribute name="default_group_by">state</attribute>
                 </xpath>
+
             </field>
         </record>
     </data>
