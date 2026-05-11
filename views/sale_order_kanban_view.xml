@@ -17,6 +17,10 @@
                     <attribute name="default_group_by">state</attribute>
                 </xpath>
 
+                <xpath expr="//field[@name='state']" position="attributes">
+                    <attribute name="readonly">False</attribute>
+                </xpath>
+
             </field>
         </record>
     </data>
