@@ -15,7 +15,7 @@ class SaleOrder(models.Model):
         em vez de setar o campo diretamente, garantindo que toda a lógica
         de confirmação seja executada corretamente.
         """
-        if vals.get('state') == 'sale':
+        if vals.get('state') == 'sale' and not self.env.context.get('kanban_confirm_in_progress'):
             # Separa os pedidos que podem ser confirmados
             orders_to_confirm = self.filtered(
                 lambda o: o.state in ('draft', 'sent')
@@ -28,7 +28,7 @@ class SaleOrder(models.Model):
                     'Kanban drag-and-drop: confirmando pedido(s) %s via action_confirm()',
                     orders_to_confirm.mapped('name')
                 )
-                orders_to_confirm.action_confirm()
+                orders_to_confirm.with_context(kanban_confirm_in_progress=True).action_confirm()
 
             # Para os demais (ex: já confirmados), aplica o write normalmente
             if others:
