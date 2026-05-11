@@ -9,18 +9,11 @@ class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     def write(self, vals):
-        """
-        Intercepta a mudança de state para 'sale' (Sales Order).
-        Quando isso acontece via drag-and-drop no Kanban, chama action_confirm()
-        em vez de setar o campo diretamente, garantindo que toda a lógica
-        de confirmação seja executada corretamente.
-        """
-        if vals.get('state') == 'sale':
-            # Separa os pedidos que podem ser confirmados
+        # Evita recursão: action_confirm() também chama write({'state': 'sale'})
+        if vals.get('state') == 'sale' and not self.env.context.get('_confirming_from_kanban'):
             orders_to_confirm = self.filtered(
                 lambda o: o.state in ('draft', 'sent')
             )
-            # Pedidos que já estão confirmados ou em outros estados
             others = self - orders_to_confirm
 
             if orders_to_confirm:
@@ -28,15 +21,14 @@ class SaleOrder(models.Model):
                     'Kanban drag-and-drop: confirmando pedido(s) %s via action_confirm()',
                     orders_to_confirm.mapped('name')
                 )
-                orders_to_confirm.action_confirm()
+                # Flag de contexto para evitar loop infinito
+                orders_to_confirm.with_context(_confirming_from_kanban=True).action_confirm()
 
-            # Para os demais (ex: já confirmados), aplica o write normalmente
             if others:
                 super(SaleOrder, others).write(vals)
 
             return True
 
-        # Intercepta tentativa de mover para 'cancel' via Kanban
         if vals.get('state') == 'cancel':
             confirmed = self.filtered(lambda o: o.state == 'sale')
             if confirmed:
